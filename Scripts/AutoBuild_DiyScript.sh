@@ -70,9 +70,9 @@ EOF
 		AddPackage git other luci-app-ikoolproxy iwrt main
 		AddPackage git other helloworld fw876 master
 		AddPackage git themes luci-theme-neobird thinktip main
-		AddPackage git other luci-app-smartdns pymumu led
+		AddPackage git other luci-app-smartdns pymumu lede
                 AddPackage git passwall-depends openwrt-passwall xiaorouji packages
-                AddPackage git passwall-luci openwrt-passwall xiaorouji luci
+                AddPackage git passwall-luci openwrt-passwall xiaorouji luci		
 
 		case "${TARGET_BOARD}" in
 		ramips)
@@ -83,7 +83,7 @@ EOF
 
 		case "${TARGET_PROFILE}" in
 		d-team_newifi-d2)
-			Copy ${CustomFiles}/${TARGET_PROFILE}_system ${BASE_FILES}/etc/config system        	
+			Copy ${CustomFiles}/${TARGET_PROFILE}_system ${BASE_FILES}/etc/config system
 		;;
 		x86_64)
 			Copy ${CustomFiles}/Depends/cpuset ${BASE_FILES}/bin
