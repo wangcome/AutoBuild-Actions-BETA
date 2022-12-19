@@ -71,9 +71,7 @@ EOF
 		AddPackage git other helloworld fw876 master
 		AddPackage git themes luci-theme-neobird thinktip main
 		AddPackage git other luci-app-smartdns pymumu lede
-		AddPackage git passwall-depends openwrt-passwall xiaorouji packages
-		AddPackage git passwall-luci openwrt-passwall xiaorouji luci
-
+		
 		case "${TARGET_BOARD}" in
 		ramips)
 			sed -i "/DEVICE_COMPAT_VERSION := 1.1/d" target/linux/ramips/image/mt7621.mk
@@ -83,7 +81,9 @@ EOF
 
 		case "${TARGET_PROFILE}" in
 		d-team_newifi-d2)
-			Copy ${CustomFiles}/${TARGET_PROFILE}_system ${BASE_FILES}/etc/config system
+			Copy ${CustomFiles}/${TARGET_PROFILE}_system ${BASE_FILES}/etc/config system        	
+                        AddPackage git passwall-depends openwrt-passwall xiaorouji packages
+                        AddPackage git passwall-luci openwrt-passwall xiaorouji luc
 		;;
 		x86_64)
 			Copy ${CustomFiles}/Depends/cpuset ${BASE_FILES}/bin
