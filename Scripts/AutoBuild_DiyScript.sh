@@ -71,6 +71,8 @@ EOF
 		AddPackage git other helloworld fw876 master
 		AddPackage git themes luci-theme-neobird thinktip main
 		AddPackage git other luci-app-smartdns pymumu lede
+		AddPackage git passwall-depends openwrt-passwall xiaorouji packages
+		AddPackage git passwall-luci openwrt-passwall xiaorouji luci
 
 		case "${TARGET_BOARD}" in
 		ramips)
