@@ -115,9 +115,10 @@ EOF
 			
 		case "${TARGET_PROFILE}" in
 		d-team_newifi-d2)
+                        rm -r ${WORK}/feeds/packages/lang/golang
+			git clone https://github.com/sbwml/packages_lang_golang -b 22.x ${WORK}/feeds/packages/lang/golang
 			Copy ${CustomFiles}/${TARGET_PROFILE}_system ${BASE_FILES}/etc/config system
-                        rm -r ${WORK}/package/passwall/openwrt-passwall-packages/xray-core
-			rm -r ${WORK}/package/passwall/openwrt-passwall-packages/xray-plugin
+                       
 		;;
 		x86_64)
 			ClashDL amd64 dev
