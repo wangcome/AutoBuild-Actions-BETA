@@ -12,18 +12,23 @@ Firmware_Diy_Start() {
 	OP_BRANCH="$(cut -d ':' -f2 <<< ${DEFAULT_SOURCE})"
 	Firmware_Diy_Core
 	[[ ${Short_Fw_Date} == true ]] && Compile_Date="$(cut -c1-8 <<< ${Compile_Date})"
-	Github="$(egrep -o 'https://github.com/.+' ${GITHUB_WORKSPACE}/.git/config | awk 'NR==1')"
+	
+	# === 修复点 1: 清除 Github 变量可能带有的尾部换行符 ===
+	Github="$(egrep -o 'https://github.com/.+' ${GITHUB_WORKSPACE}/.git/config | awk 'NR==1' | tr -d '\n\r')"
+	
 	[[ -z ${Author} || ${Author} == AUTO ]] && Author="$(cut -d "/" -f4 <<< ${Github} | awk 'NR==1')"
 	if [[ ${OP_BRANCH} =~ (master|main) ]]
 	then
 		OP_VERSION_HEAD="R$(date +%y.%m)-"
 	else
-		OP_VERSION_HEAD="R$(egrep -o "[0-9]+.[0-9]+" <<< ${OP_BRANCH} | awk 'NR==1')-"
+		# === 修复点 2: 清除 OP_VERSION_HEAD 变量可能带有的尾部换行符 ===
+		OP_VERSION_HEAD="R$(egrep -o "[0-9]+.[0-9]+" <<< ${OP_BRANCH} | awk 'NR==1' | tr -d '\n\r')-"
 	fi
 	case "${OP_AUTHOR}/${OP_REPO}" in
 	coolsnowwolf/lede)
 		Version_File=package/lean/default-settings/files/zzz-default-settings
-		zzz_Default_Version="$(egrep -o "R[0-9]+\.[0-9]+\.[0-9]+" ${Version_File})"
+		# === 修复点 3: 清除 zzz_Default_Version 提取时可能带有的换行符 (主要原因) ===
+		zzz_Default_Version="$(egrep -o "R[0-9]+\.[0-9]+\.[0-9]+" ${Version_File} | tr -d '\n\r')"
 		OP_VERSION="${zzz_Default_Version}-${Compile_Date}"
 	;;
 	immortalwrt/immortalwrt | padavanonly/immortalwrtARM | hanwckf/immortalwrt-mt798x)
@@ -94,6 +99,11 @@ Firmware_Diy_Start() {
 		AutoBuild_Fw="AutoBuild-${OP_REPO}-${TARGET_PROFILE}-${OP_VERSION}-${TARGET_FLAG}-SHA256.FORMAT"
 	;;
 	esac
+	
+	# === 修复点 4: 写入 $GITHUB_ENV 前，确保 AutoBuild_Fw 和 OP_VERSION 是单行的 ===
+	AutoBuild_Fw=$(echo "${AutoBuild_Fw}" | tr -d '\n\r')
+	OP_VERSION=$(echo "${OP_VERSION}" | tr -d '\n\r')
+	
 	cat >> ${GITHUB_ENV} <<EOF
 WORK=${WORK}
 CONFIG_TEMP=${CONFIG_TEMP}
@@ -131,6 +141,7 @@ EOF
 	ECHO "[Firmware_Diy_Start] Done"
 }
 
+# (其余函数保持不变，因为它们不在问题的核心)
 Firmware_Diy_Main() {
 	ECHO "[Firmware_Diy_Main] Starting ..."
 	CD ${WORK}
