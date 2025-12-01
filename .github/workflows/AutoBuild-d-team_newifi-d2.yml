@@ -95,12 +95,12 @@ jobs:
         then
             if [ -f "$GITHUB_WORKSPACE/Configs/${{ github.event.inputs.Tempoary_CONFIG }}" ]
             then
-                CONFIG_FILE=${{ github.event.inputs.Tempoary_CONFIG }}
+                CONFIG_FILE='${{ github.event.inputs.Tempoary_CONFIG }}'
             else
-                CONFIG_FILE=${{ env.CONFIG_FILE }}
+                CONFIG_FILE='${{ env.CONFIG_FILE }}'
             fi
         else
-            CONFIG_FILE=${{ env.CONFIG_FILE }}
+            CONFIG_FILE='${{ env.CONFIG_FILE }}'
         fi
         if [ ! -f "$GITHUB_WORKSPACE/Configs/$CONFIG_FILE" ]
         then
