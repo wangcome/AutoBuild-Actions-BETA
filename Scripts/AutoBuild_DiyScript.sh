@@ -97,7 +97,7 @@ EOF
 		AddPackage other jerrykuku luci-app-argon-config  master
 		AddPackage other fw876 helloworld  main
 		AddPackage themes thinktip luci-theme-neobird  main
-                AddPackage passwall-depends xiaorouji openwrt-passwall-packages main
+        AddPackage passwall_packages xiaorouji openwrt-passwall-packages main
 		AddPackage passwall-luci xiaorouji openwrt-passwall main
 		
 		case "${TARGET_BOARD}" in
