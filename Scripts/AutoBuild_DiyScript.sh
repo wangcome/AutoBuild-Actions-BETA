@@ -97,8 +97,7 @@ EOF
 		AddPackage other jerrykuku luci-app-argon-config  master
 		AddPackage other fw876 helloworld  main
 		AddPackage themes thinktip luci-theme-neobird  main
-        AddPackage passwall_packages Openwrt-Passwall openwrt-passwall-packages main
-		AddPackage passwall-luci Openwrt-Passwall openwrt-passwall main
+       
 		
 		case "${TARGET_BOARD}" in
 		ramips)
