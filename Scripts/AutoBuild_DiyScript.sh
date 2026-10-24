@@ -134,6 +134,13 @@ EOF
            rm -rf feeds/packages/net/v2ray-geodata
            rm -rf feeds/packages/net/mosdns
            rm -rf feeds/luci/applications/luci-app-mosdns
+		   # 移除可能冲突的自带旧 Argon 主题
+　　　　　　rm -rf ${FEEDS_LUCI}/luci-theme-argon*
+
+　　　　　# 拉取适配当前版本的全新 Argon 主题和配置软件
+　　　　　AddPackage themes jerrykuku luci-theme-argon 18.06
+　　　　　AddPackage other jerrykuku luci-app-argon-config master
+
     
          # 2. 使用最新官方推荐的 main 分支拉取全新 PassWall 核心及 LuCI 界面
          # 注意：最新版官方推荐将两个仓库都放到 package/passwall 目录或单独目录中
