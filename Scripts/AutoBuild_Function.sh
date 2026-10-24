@@ -171,12 +171,17 @@ EOF
 		coolsnowwolf/lede)
 			Copy ${CustomFiles}/Depends/coremark.sh $(PKG_Finder d "package feeds" coremark)
 			sed -i '\/etc\/firewall.user/d;/exit 0/d' ${Version_File}
-			if [[ -n ${TARGET_FLAG} ]]
-			then
-				sed -i "s?${zzz_Default_Version}?${TARGET_FLAG} ${zzz_Default_Version} @ ${Author} [${Display_Date}]?g" ${Version_File}
-			else
-				sed -i "s?${zzz_Default_Version}?${zzz_Default_Version} @ ${Author} [${Display_Date}]?g" ${Version_File}
-			fi
+			if [[ -n ${zzz_Default_Version} ]]; then
+            if [[ -n ${TARGET_FLAG} ]]
+            then
+            sed -i "s?${zzz_Default_Version}?${TARGET_FLAG} ${zzz_Default_Version} @ ${Author} [${Display_Date}]?g" ${Version_File}
+            else
+           sed -i "s?${zzz_Default_Version}?${zzz_Default_Version} @ ${Author} [${Display_Date}]?g" ${Version_File}
+            fi
+           else
+           echo "Warning: zzz_Default_Version is empty, skipping sed modification."
+           fi
+
 		;;
 		immortalwrt/immortalwrt | padavanonly/immortalwrtARM | hanwckf/immortalwrt-mt798x)
 			Copy ${CustomFiles}/Depends/openwrt_release_immortalwrt ${BASE_FILES}/etc openwrt_release
