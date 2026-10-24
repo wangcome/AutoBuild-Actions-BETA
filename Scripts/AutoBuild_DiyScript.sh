@@ -97,7 +97,7 @@ EOF
 		# sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 		# sed -i '/uci commit luci/i\uci set luci.main.mediaurlbase="/luci-static/argon-mod"' $(PKG_Finder d package default-settings)/files/zzz-default-settings
 		#sed -i "s?openwrt-23.05?master?g" ${FEEDS_CONF}
-		git reset --hard 1627fd2c745e496134834a8fb8145ba0aa458ae9
+		#git reset --hard 1627fd2c745e496134834a8fb8145ba0aa458ae9
 		
 		rm -r ${FEEDS_LUCI}/luci-theme-argon*
 		AddPackage other vernesong OpenClash dev
@@ -130,8 +130,15 @@ EOF
 		case "${TARGET_PROFILE}" in
 		d-team_newifi-d2)
 			Copy ${CustomFiles}/${TARGET_PROFILE}_system ${BASE_FILES}/etc/config system
-			AddPackage passwall-depends Openwrt-Passwall openwrt-passwall-packages main
-			AddPackage passwall-luci Openwrt-Passwall openwrt-passwall main
+			# 1. 移除可能冲突的旧自带依赖
+           rm -rf feeds/packages/net/v2ray-geodata
+           rm -rf feeds/packages/net/mosdns
+           rm -rf feeds/luci/applications/luci-app-mosdns
+    
+         # 2. 使用最新官方推荐的 main 分支拉取全新 PassWall 核心及 LuCI 界面
+         # 注意：最新版官方推荐将两个仓库都放到 package/passwall 目录或单独目录中
+          AddPackage passwall Openwrt-Passwall openwrt-passwall main
+          AddPackage passwall Openwrt-Passwall openwrt-passwall-packages main
 		;;
 		xiaomi_redmi-router-ax6s)
 			AddPackage passwall-depends Openwrt-Passwall openwrt-passwall-packages main
